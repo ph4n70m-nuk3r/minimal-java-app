@@ -25,7 +25,6 @@ objects:
           from:
             kind: DockerImage
             name: java-s2i-builder:1.0.0
-            namespace: team8
       output:
         to:
           kind: ImageStreamTag
