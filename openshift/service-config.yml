@@ -1,0 +1,26 @@
+kind: "Template"
+apiVersion: "v1"
+parameters:
+  - name: TARGET_NAMESPACE
+    description:
+    required:
+  - name: DEPLOYMENT_NAME
+    description:
+    required:
+objects:
+  - kind: "Service"
+    apiVersion: "v1"
+    metadata:
+      name: "${DEPLOYMENT_NAME}"
+      labels:
+        app: "minimal-java-app"
+      annotations:
+        description: "Service for ${DEPLOYMENT_NAME}"
+    spec:
+      ports:
+        - name: "web"
+          port: 8080
+          targetPort: 8080
+      selector:
+        deploymentconfig: "${DEPLOYMENT_NAME}"
+

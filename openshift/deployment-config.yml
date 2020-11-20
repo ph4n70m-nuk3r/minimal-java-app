@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: ${DEPLOYMENT_NAME}-deploy-template
+  annotations:
+    description: ${DEPLOYMENT_NAME}
+parameters:
+  - description: Image to deploy e.g. minimal-java-app
+    name: IMAGENAME
+    required: true
+  - description: Image tag e.g. 1.0.1
+    name: IMAGETAG
+    required: true
+  - description: The name of the deployed applications e.g. minimal-java-app-v1
+    name: DEPLOYMENT_NAME
+    required: true
+  - description: The namespace/project to deploy the application into e.g. team8
+    name: TARGET_NAMESPACE
+    required: true
+objects:
+  - kind: "DeploymentConfig"
+    apiVersion: "v1"
+    metadata:
+      name: "${DEPLOYMENT_NAME}"
+      namespace: "${TARGET_NAMESPACE}"
+      labels:
+        name: "${DEPLOYMENT_NAME}"
+        app: "${DEPLOYMENT_NAME}"
+    spec:
+      template:
+        metadata:
+          labels:
+            name: "${DEPLOYMENT_NAME}"
+            app: "${DEPLOYMENT_NAME}"
+        spec:
+          volumes:
+            - name: volume-${DEPLOYMENT_NAME}-secrets
+              secret:
+                secretName: ${DEPLOYMENT_NAME}-secrets
+                defaultMode: 420
+          containers:
+            - name: "${DEPLOYMENT_NAME}"
+              image: team8/${IMAGENAME}:${IMAGETAG}
+              ports:
+                - containerPort: 8080
+                  protocol: "TCP"
+              resources:
+                limits:
+                  memory: 1Gi
+                requests:
+                  memory: 1Gi
+              env:
+                - name: _JAVA_OPTIONS
+                  value: >-
+                    -Dapp.properties.file="/etc/${DEPLOYMENT_NAME}-secrets/config.properties"
+                    -Xmx512M
+              volumeMounts:
+                - name: volume-${DEPLOYMENT_NAME}-secrets
+                  readOnly: true
+                  mountPath: /etc/${DEPLOYMENT_NAME}-secrets
+        triggers: []
+        strategy:
+          rollingParams:
+            intervalSeconds: 1
+            maxSurge: 25%
+            maxUnavailable: 25%
+            timeoutSeconds: 600
+            updatePeriodSeconds: 1
+          type: "Rolling"
+        paused: false
+        revisionHistoryLimit: 3
+        minReadySeconds: 30
+

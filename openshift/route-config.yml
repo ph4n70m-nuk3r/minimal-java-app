@@ -1,0 +1,41 @@
+kind: Template
+apiVersion: v1
+metadata:
+  name: ${DEPLOYMENT_NAME}-routes-template
+  annotations:
+    description: ${DEPLOYMENT_NAME}
+parameters:
+  - description: Target namespace for this config
+    name: TARGET_NAMESPACE
+    required: true
+  - description: The name of the deployed application
+    name: DEPLOYMENT_NAME
+    required: true
+  - description: Path e.g. /api/instruments/v43
+    name: PATH
+    required: false
+  - description: The hostname to use for routing to the service, e.g. nexusds-dev.np.openshift.inv.adroot.lgim.com
+    name: HOST
+    required: false
+objects:
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: ${DEPLOYMENT_NAME}
+      namespace: ${TARGET_NAMESPACE}
+      labels:
+        app: ${DEPLOYMENT_NAME}
+      annotations:
+        description: Route for application's http service.
+    spec:
+      port:
+        targetPort: web
+      tls:
+        insecureEdgeTerminationPolicy: Allow
+        termination: edge
+      to:
+        kind: Service
+        name: ${DEPLOYMENT_NAME}
+        weight: 100
+        wildcardPolicy: None
+

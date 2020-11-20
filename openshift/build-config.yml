@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: minimal-java-app-build-template
+  annotations:
+    description: minimal-java-app
+parameters:
+  - name: TARGET_NAMESPACE
+    required: true
+    description: The namespace/project to deploy the application into.
+objects:
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: minimal-java-app-build
+      namespace: ${TARGET_NAMESPACE}
+    spec:
+      runPolicy: Serial
+      source:
+        type: Git
+        git:
+          uri: https://github.com/ph4n70m-nuk3r/minimal-java-app
+      strategy:
+        sourceStrategy:
+          from:
+            kind: DockerImage
+            name: java-s2i-builder:1.0.0
+            namespace: team8
+      output:
+        to:
+          kind: ImageStreamTag
+          name: minimal-java-app:latest
+          namespace: team8
+      resources: {}
+      postCommit: {}
+
