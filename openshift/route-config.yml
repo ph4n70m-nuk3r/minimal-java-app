@@ -11,12 +11,6 @@ parameters:
   - description: The name of the deployed application
     name: DEPLOYMENT_NAME
     required: true
-  - description: Path e.g. /api/instruments/v43
-    name: PATH
-    required: false
-  - description: The hostname to use for routing to the service, e.g. nexusds-dev.np.openshift.inv.adroot.lgim.com
-    name: HOST
-    required: false
 objects:
   - kind: Route
     apiVersion: v1
