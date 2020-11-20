@@ -23,13 +23,10 @@ objects:
       strategy:
         sourceStrategy:
           from:
-            kind: DockerImage
+            kind: ImageStreamTag
             name: java-s2i-builder:1.0.0
-          pullSecret:
-            name: builder-dockercfg-8f9cf
+            namespace: team8
       output:
-        pushSecret:
-          name: builder-dockercfg-8f9cf
         to:
           kind: ImageStreamTag
           name: minimal-java-app:latest
