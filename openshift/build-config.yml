@@ -25,7 +25,11 @@ objects:
           from:
             kind: DockerImage
             name: java-s2i-builder:1.0.0
+          pullSecret:
+            name: builder-dockercfg-7nm6n
       output:
+        pushSecret:
+          name: builder-dockercfg-7nm6n
         to:
           kind: ImageStreamTag
           name: minimal-java-app:latest
