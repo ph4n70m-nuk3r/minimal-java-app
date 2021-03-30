@@ -14,7 +14,7 @@ parameters:
   - description: The name of the deployed applications e.g. minimal-java-app-v1
     name: DEPLOYMENT_NAME
     required: true
-  - description: The namespace/project to deploy the application into e.g. team8
+  - description: The namespace/project to deploy the application into e.g. investments-nexus-d00
     name: TARGET_NAMESPACE
     required: true
 objects:
@@ -40,7 +40,7 @@ objects:
                 defaultMode: 420
           containers:
             - name: "${DEPLOYMENT_NAME}"
-              image: team8/${IMAGENAME}:${IMAGETAG}
+              image: lgim-investments/${IMAGENAME}:${IMAGETAG}
               ports:
                 - containerPort: 8080
                   protocol: "TCP"
