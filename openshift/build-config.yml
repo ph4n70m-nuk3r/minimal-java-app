@@ -25,12 +25,12 @@ objects:
           from:
             kind: ImageStreamTag
             name: java-s2i-builder:1.0.0
-            namespace: team8
+            namespace: lgim-investments
       output:
         to:
           kind: ImageStreamTag
           name: minimal-java-app:latest
-          namespace: team8
+          namespace: lgim-investments
       resources: {}
       postCommit: {}
 
