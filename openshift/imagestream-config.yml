@@ -2,7 +2,7 @@ kind: ImageStream
 apiVersion: v1
 metadata:
   name: minimal-java-app
-  namespace: team8
+  namespace: lgim-investments
   labels:
     app: minimal-java-app
 
