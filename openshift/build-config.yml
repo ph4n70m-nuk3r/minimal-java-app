@@ -25,7 +25,7 @@ objects:
           from:
             kind: ImageStreamTag
             name: java-s2i-builder:1.0.0
-            namespace: lgim-investments
+            namespace: investments-nexus-d00
       output:
         to:
           kind: ImageStreamTag
