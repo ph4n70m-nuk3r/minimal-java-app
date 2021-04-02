@@ -40,7 +40,7 @@ objects:
                 defaultMode: 420
           containers:
             - name: "${DEPLOYMENT_NAME}"
-              image: lgim-investments/${IMAGENAME}:${IMAGETAG}
+              image: 172.30.1.1:5000/lgim-investments/${IMAGENAME}:${IMAGETAG}
               ports:
                 - containerPort: 8080
                   protocol: "TCP"
